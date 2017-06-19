@@ -21,7 +21,7 @@ BLOG_AUTHOR = "PSL-CHArt Team"  # (translatable)
 BLOG_TITLE = "PSL Deep Learning Sessions"  # (translatable)
 # This is the main URL for your site. It will be used
 # in a prominent link. Don't forget the protocol (http/https)!
-SITE_URL = "https://example.com/"
+SITE_URL = "https://d-k-e.github.io/psl-dl-human-demo/"
 # This is the URL where Nikola's output will be deployed.
 # If not set, defaults to SITE_URL
 # BASE_URL = "https://example.com/"
