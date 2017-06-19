@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0"><channel><title>PSL Deep Learning Sessions</title><link>https://d-k-e.github.io/psl-dl-human-demo/</link><description>Yet Another Deep Learning Blog for Humanities</description><atom:link type="application/rss+xml" href="https://d-k-e.github.io/psl-dl-human-demo/fr/rss.xml" rel="self"></atom:link><language>fr</language><copyright>Contents © 2017 &lt;a href="mailto:n.tesla@example.com"&gt;PSL-CHArt Team&lt;/a&gt; </copyright><lastBuildDate>Mon, 19 Jun 2017 02:52:05 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Binary Classification and ML Essentials with MNIST Data - 1</title><link>https://d-k-e.github.io/psl-dl-human-demo/fr/posts/binary-classification-and-dl-essentials-with-mnist-data/</link><dc:creator>PSL-CHArt Team</dc:creator><description>&lt;div&gt;&lt;p&gt;Today we will try to enter into the rather broad field of machine learning through its most simple and most comprehensible task, binary classification.
+You can think of binary classification as yes, no questions.
+You want to know whether you have an apple on the table, if you saw an orange, you would naturally say "this is not apple", if you saw an apple, you would say "Here stands an apple with all of its might", or simply "oh apple".
+A binary classifier does exactly the same thing.
+It takes a bunch of data that is labeled with the class we will be searching for, and tries to identify unlabeled data based on the labeled examples we had provided.
+The term &lt;em&gt;binary&lt;/em&gt; refers to the nature of the label which consists of two values, like "yes, no", "apple, not apple", "1, 0".
+Since most algorithms used in machine learning requires numbers as input, the "1, 0" couple is the prefered one.&lt;/p&gt;
+&lt;p&gt;This post involves a lot of coding in Python 3.
+Though the ideas related by the code will be explained with words, we assume a very basic reading knowledge of python, just enough to understand some of the keywords and global structure of its syntax.
+If you have been coding in this decade, you probably won't be needing that kind of introduction to follow what's going on.
+However, if you have no prior coding experience, you should try to cover that first.
+&lt;a class="reference external" href="https://en.wikibooks.org/wiki/Python_Programming"&gt;Here&lt;/a&gt; is something to get you started.&lt;/p&gt;
+&lt;p&gt;Now as with all learning problems, before we can learn, we need something to learn, that is data, and the more the better.
+So let's import our dataset.&lt;/p&gt;
+&lt;div class="section" id="import-mnist-dataset"&gt;
+&lt;h2&gt;Import MNIST Dataset&lt;/h2&gt;
+&lt;table class="codetable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;&lt;a href="https://d-k-e.github.io/psl-dl-human-demo/fr/posts/binary-classification-and-dl-essentials-with-mnist-data/#rest_code_935bce490d4a43dc973d805436c19c22-1"&gt;1&lt;/a&gt;
+&lt;a href="https://d-k-e.github.io/psl-dl-human-demo/fr/posts/binary-classification-and-dl-essentials-with-mnist-data/#rest_code_935bce490d4a43dc973d805436c19c22-2"&gt;2&lt;/a&gt;
+&lt;a href="https://d-k-e.github.io/psl-dl-human-demo/fr/posts/binary-classification-and-dl-essentials-with-mnist-data/#rest_code_935bce490d4a43dc973d805436c19c22-3"&gt;3&lt;/a&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;pre class="code python"&gt;&lt;a name="rest_code_935bce490d4a43dc973d805436c19c22-1"&gt;&lt;/a&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.datasets&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;fetch_mldata&lt;/span&gt;
+&lt;a name="rest_code_935bce490d4a43dc973d805436c19c22-2"&gt;&lt;/a&gt;
+&lt;a name="rest_code_935bce490d4a43dc973d805436c19c22-3"&gt;&lt;/a&gt;&lt;span class="n"&gt;mnist&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;fetch_mldata&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"MNIST Original"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;This might take while, depending on the internet connection, so feel free to grab a quick coffee.&lt;/p&gt;
+&lt;p&gt;After the data is downloaded, let's see what's inside.&lt;/p&gt;
+&lt;pre class="code python"&gt;&lt;a name="rest_code_fadb8a2df01146aebefe362470c75752-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mnist&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;pre class="literal-block"&gt;
+{'DESCR': 'mldata.org dataset: mnist-original',
+'target': array([ 0.,  0.,  0., ...,  9.,  9.,  9.]),
+'COL_NAMES': ['label', 'data'],
+'data': array([[0, 0, 0, ..., 0, 0, 0],
+       [0, 0, 0, ..., 0, 0, 0],
+       [0, 0, 0, ..., 0, 0, 0],
+       ...,
+       [0, 0, 0, ..., 0, 0, 0],
+       [0, 0, 0, ..., 0, 0, 0],
+       [0, 0, 0, ..., 0, 0, 0]], dtype=uint8)}
+&lt;/pre&gt;
+&lt;p&gt;This might look a little overwhelming at first, but it actually contains very basic information regarding to the contents of our dataset.
+If the numbers look confusing, try imagining pineapples instead, because the value indicated by the numbers don't really concerns us at this point.&lt;/p&gt;
+&lt;p&gt;The "DESCR" stands for description. Let's try to read what our description tells us:&lt;/p&gt;
+&lt;dl class="docutils"&gt;
+&lt;dt&gt;target&lt;/dt&gt;
+&lt;dd&gt;This is an array with 1 dimension.
+In practice, it is a list of numbers ordered in certain fashion.
+In theory it is a &lt;a class="reference external" href="https://simple.wikipedia.org/wiki/Vector"&gt;vector&lt;/a&gt; containing the labels of the data.
+Some linear algebra books also call it tuples.&lt;/dd&gt;
+&lt;dt&gt;COL_NAMES&lt;/dt&gt;
+&lt;dd&gt;This is what it says, column names. If were to print out the dataset, these would be the column names.&lt;/dd&gt;
+&lt;dt&gt;data&lt;/dt&gt;
+&lt;dd&gt;This is an array with 2 dimensions.
+In practice, it is a list of list of numbers, both of them ordered in a certain fashion.
+In theory, it is a &lt;a class="reference external" href="https://simple.wikipedia.org/wiki/Matrix_(mathematics)"&gt;matrix&lt;/a&gt;, containing the actual data we will be working on.&lt;/dd&gt;
+&lt;dt&gt;dtype&lt;/dt&gt;
+&lt;dd&gt;This indicates the type of the data, "uint8" stands for &lt;em&gt;unsigned integer (0,255)&lt;/em&gt;, it is used mostly for storing pixel values of images.&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;div class="section" id="assigning-variables-label-data"&gt;
+&lt;h2&gt;Assigning Variables: Label, Data&lt;/h2&gt;
+&lt;p&gt;Now let's assign our dataset to their variables for ease of use during the session.
+A quick note here, please do not forget that in python assignment operation &lt;em&gt;does not&lt;/em&gt; create a new object in memory, instead the variable functions as a 'name', 'tag' of the object in memory, so if you want to use the &lt;em&gt;untouched&lt;/em&gt; dataset later on for different purposes, feel free to work with a copy of it.&lt;/p&gt;
+&lt;pre class="code python"&gt;&lt;a name="rest_code_9cc05b50f6d04ce58fdc06b32e5a4881-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;mnist&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"data"&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;mnist&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"target"&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;a name="rest_code_9cc05b50f6d04ce58fdc06b32e5a4881-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shape&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_9cc05b50f6d04ce58fdc06b32e5a4881-3"&gt;&lt;/a&gt;&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shape&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;pre class="literal-block"&gt;
+(70000, 784)
+(70000,)
+&lt;/pre&gt;
+&lt;p&gt;As a bonus, we also printed the shapes of the X and y variables.
+You can think of shapes as dimensions mentioned above. X has 2D shape, whereas y has 1D shape.
+What do the numbers tell us exactly ?&lt;/p&gt;
+&lt;dl class="docutils"&gt;
+&lt;dt&gt;X.shape&lt;/dt&gt;
+&lt;dd&gt;This tells us that the data assigned to the variable X has 70000 rows and 784 columns.
+Columns are number of pixels in images, that is, all images in the MNIST dataset are composed of 784 pixels.
+Thus we have 784 columns.
+Rows are the total number of images.&lt;/dd&gt;
+&lt;dt&gt;y.shape&lt;/dt&gt;
+&lt;dd&gt;This tells us that the data assigned to the variable y has 70000 rows.
+Since y contains labels for the images, we can see that it includes a label for each image of X.&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;div class="section" id="visualisation-of-a-digit"&gt;
+&lt;h2&gt;Visualisation of a digit&lt;/h2&gt;
+&lt;p&gt;Just for the sake of verifying that everything is okay, let's visualise a digit.&lt;/p&gt;
+&lt;pre class="code python"&gt;&lt;a name="rest_code_af6e5694cbe94e688ab4cf37907c2274-1"&gt;&lt;/a&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;matplotlib&lt;/span&gt; &lt;span class="n"&gt;inline&lt;/span&gt;
+&lt;a name="rest_code_af6e5694cbe94e688ab4cf37907c2274-2"&gt;&lt;/a&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;random&lt;/span&gt;
+&lt;a name="rest_code_af6e5694cbe94e688ab4cf37907c2274-3"&gt;&lt;/a&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib&lt;/span&gt;
+&lt;a name="rest_code_af6e5694cbe94e688ab4cf37907c2274-4"&gt;&lt;/a&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;plt&lt;/span&gt;
+&lt;a name="rest_code_af6e5694cbe94e688ab4cf37907c2274-5"&gt;&lt;/a&gt;&lt;span class="c1"&gt;#random_digit = X[random.randint(0,70000-1)]&lt;/span&gt;
+&lt;a name="rest_code_af6e5694cbe94e688ab4cf37907c2274-6"&gt;&lt;/a&gt;&lt;span class="n"&gt;random_digit&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;36000&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;a name="rest_code_af6e5694cbe94e688ab4cf37907c2274-7"&gt;&lt;/a&gt;&lt;span class="n"&gt;random_digit_image&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;random_digit&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;reshape&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;28&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;28&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_af6e5694cbe94e688ab4cf37907c2274-8"&gt;&lt;/a&gt;&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;imshow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;random_digit_image&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cmap&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;matplotlib&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;binary&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;interpolation&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"nearest"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_af6e5694cbe94e688ab4cf37907c2274-9"&gt;&lt;/a&gt;&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;axis&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"off"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_af6e5694cbe94e688ab4cf37907c2274-10"&gt;&lt;/a&gt;&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;show&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;Basically we did the following:&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;Gave an instruction to ipython for using matplotlib (the library used for visualisation) inline, that is between the lines as in not in a separate window.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;2. We imported the necessary libraries for visualisation.
+The random library is there for accessing random digits, it doesn't have anything to do with visualisation.
+However, it is good practice to do verification from random parts of the data.
+If you decide to use it throughout your code, your classifier will not give the same values as ours, but it's okay.&lt;/p&gt;
+&lt;ol class="arabic simple" start="3"&gt;
+&lt;li&gt;We reshape the image to its original value, that is to a matrix of 28x28.&lt;/li&gt;
+&lt;li&gt;Then we plot the image.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;What does it give ? It should give something like this:&lt;/p&gt;
+&lt;img alt="/images/20170619-bc-ml-mnist-1/output_5_0.png" src="https://d-k-e.github.io/psl-dl-human-demo/images/20170619-bc-ml-mnist-1/output_5_0.png"&gt;
+&lt;/div&gt;
+&lt;div class="section" id="prepare-the-training-and-test-sets"&gt;
+&lt;h2&gt;Prepare the training and test sets&lt;/h2&gt;
+&lt;p&gt;Up to this point, what we had seen is called preprocessing the data.
+From this point on, we shall see the machine learning in action.
+Beware though without the necessary preprocessing, you simply can not work with it, through machine learning tools.
+Thus the quality of your preprocessing is one of the key factors effecting the reliability of the outcome of your results.&lt;/p&gt;
+&lt;pre class="code text"&gt;&lt;a name="rest_code_c70a0d7c9e8f4198b05ac9a7383162bc-1"&gt;&lt;/a&gt;X_train, X_test, y_train, y_test = X[:60000], X[60000:], y[:60000], y[60000:]
+&lt;a name="rest_code_c70a0d7c9e8f4198b05ac9a7383162bc-2"&gt;&lt;/a&gt;import numpy as np
+&lt;a name="rest_code_c70a0d7c9e8f4198b05ac9a7383162bc-3"&gt;&lt;/a&gt;shuffle_index = np.random.permutation(60000)
+&lt;a name="rest_code_c70a0d7c9e8f4198b05ac9a7383162bc-4"&gt;&lt;/a&gt;print(type(shuffle_index))
+&lt;a name="rest_code_c70a0d7c9e8f4198b05ac9a7383162bc-5"&gt;&lt;/a&gt;X_train, y_train = X_train[shuffle_index], y_train[shuffle_index]
+&lt;/pre&gt;&lt;pre class="literal-block"&gt;
+&amp;lt;class 'numpy.ndarray'&amp;gt;
+&lt;/pre&gt;
+&lt;p&gt;Here is what we did:&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;We separated the data to different sets:&lt;ul&gt;
+&lt;li&gt;Training set.&lt;/li&gt;
+&lt;li&gt;Test set.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;tt class="docutils literal"&gt;X_train&lt;/tt&gt; and &lt;tt class="docutils literal"&gt;y_train&lt;/tt&gt; will be used for training algorithms.
+&lt;tt class="docutils literal"&gt;X_test&lt;/tt&gt; and &lt;tt class="docutils literal"&gt;y_test&lt;/tt&gt; will be used for testing the trained algorithms.&lt;/p&gt;
+&lt;p&gt;If this talk of training and testing seems complicated, think of it this way.
+You can think of the training process as the following. The algorithms are hammers that are capable of hitting.
+But since a hammer is not capable of knowing to what it hits, you need someone for declaring to what hammer hits.
+The training process is where these declarations are given, and the testing process is where they are absent.&lt;/p&gt;
+&lt;p&gt;There is no real rule for how to divide your data into different sets, meaning, there is no set of numbers for each dataset that would work perfectly for your problem.
+A good practice would be to have as much data as you can, and use its 10 % - 15 % for testing purposes.&lt;/p&gt;
+&lt;p&gt;Another important aspect is shuffling your data before training your algorithm on it:&lt;/p&gt;
+&lt;ol class="arabic simple" start="2"&gt;
+&lt;li&gt;We shuffled the data, by creating a random index array first, then applying it to our training sets&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;A simple question is of course, why both ?
+Easy, because though we want training data to be as random as possible, we still want to conserve its labels, which are assigned to &lt;tt class="docutils literal"&gt;y_train&lt;/tt&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="binary-classification"&gt;
+&lt;h2&gt;Binary Classification&lt;/h2&gt;
+&lt;p&gt;As we had stated at the beginning, this post deals with the task of binary classification.
+We are trying to distinguish apples from "not apples".
+Since MNIST is all numerical data, we could pick a random number for demonstrating how binary classification works.
+Let's take the number "5", and try to distinguish the fives from not fives.&lt;/p&gt;
+&lt;pre class="code python"&gt;&lt;a name="rest_code_01a4d44263ea49c28e2839480b7a708b-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;y_train_5&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y_train&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# True for all the 5's, and false for the other digits&lt;/span&gt;
+&lt;a name="rest_code_01a4d44263ea49c28e2839480b7a708b-2"&gt;&lt;/a&gt;&lt;span class="n"&gt;y_test_5&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y_test&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_01a4d44263ea49c28e2839480b7a708b-3"&gt;&lt;/a&gt;&lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y_train_5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;pre class="literal-block"&gt;
+[False False False ..., False False False]
+&lt;/pre&gt;
+&lt;p&gt;What just happened ?
+We had labeled all the labels that are five as "True" and all the rest "False".
+The code uses a generator expressions to be memory efficient and is rather terse.
+If we were to write openly with more familiar data types, what is happening, it would be something like this:&lt;/p&gt;
+&lt;pre class="code python"&gt;&lt;a name="rest_code_644bf560d147452b99c32637bb75bf12-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;y_train_five&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+&lt;a name="rest_code_644bf560d147452b99c32637bb75bf12-2"&gt;&lt;/a&gt;
+&lt;a name="rest_code_644bf560d147452b99c32637bb75bf12-3"&gt;&lt;/a&gt;&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;y_tr&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;y_train&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;a name="rest_code_644bf560d147452b99c32637bb75bf12-4"&gt;&lt;/a&gt;    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;y_tr&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;a name="rest_code_644bf560d147452b99c32637bb75bf12-5"&gt;&lt;/a&gt;        &lt;span class="n"&gt;y_train_five&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_644bf560d147452b99c32637bb75bf12-6"&gt;&lt;/a&gt;    &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;a name="rest_code_644bf560d147452b99c32637bb75bf12-7"&gt;&lt;/a&gt;        &lt;span class="n"&gt;y_train_five&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_644bf560d147452b99c32637bb75bf12-8"&gt;&lt;/a&gt;
+&lt;a name="rest_code_644bf560d147452b99c32637bb75bf12-9"&gt;&lt;/a&gt;&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y_train_five&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;This was only the training set.
+The previous code also shows that we did the same operation on the test set.
+So now, we have isolated the fives in our training and test set.
+It is time for us to let the algorithms loose.&lt;/p&gt;
+&lt;pre class="code python"&gt;&lt;a name="rest_code_690ffb57aacd4acfa4d1f5e23b809b44-1"&gt;&lt;/a&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.linear_model&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;SGDClassifier&lt;/span&gt;
+&lt;a name="rest_code_690ffb57aacd4acfa4d1f5e23b809b44-2"&gt;&lt;/a&gt;&lt;span class="n"&gt;sgd_clf&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;SGDClassifier&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;random_state&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;42&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_690ffb57aacd4acfa4d1f5e23b809b44-3"&gt;&lt;/a&gt;&lt;span class="n"&gt;sgd_clf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X_train&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y_train_5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_690ffb57aacd4acfa4d1f5e23b809b44-4"&gt;&lt;/a&gt;&lt;span class="n"&gt;sgd_clf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;predict&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;random_digit&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;65421&lt;/span&gt;&lt;span class="p"&gt;]])&lt;/span&gt;
+&lt;/pre&gt;&lt;pre class="literal-block"&gt;
+array([ True,  True], dtype=bool)
+&lt;/pre&gt;
+&lt;p&gt;Here we used Stochastic Gradient Descent Classifier from the sckit-learn library.
+How does the algorithm of SGD works ? That's the subject of another post.
+What is essential here is that we had fit our training dataset, meaning that we had trained our classfier with it.
+Then we had predicted the result for two data points. According to the prediction of our trained classifiers, these points point to an image of 5.
+Let's see if that's true:&lt;/p&gt;
+&lt;pre class="code python"&gt;&lt;a name="rest_code_77031eb0435d4db08f02b8634e66eac2-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;imshow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;random_digit_image&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cmap&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;matplotlib&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;binary&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;interpolation&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"nearest"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_77031eb0435d4db08f02b8634e66eac2-2"&gt;&lt;/a&gt;&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;axis&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"off"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_77031eb0435d4db08f02b8634e66eac2-3"&gt;&lt;/a&gt;&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;show&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;img alt="/images/20170619-bc-ml-mnist-1/output_13_0.png" src="https://d-k-e.github.io/psl-dl-human-demo/images/20170619-bc-ml-mnist-1/output_13_0.png"&gt;
+&lt;pre class="code python"&gt;&lt;a name="rest_code_1990eb6e0b03471f9bda13a578fe0a3d-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;imshow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;65421&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;reshape&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;28&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;28&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;cmap&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;matplotlib&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;binary&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;interpolation&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"nearest"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_1990eb6e0b03471f9bda13a578fe0a3d-2"&gt;&lt;/a&gt;&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;axis&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"off"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_1990eb6e0b03471f9bda13a578fe0a3d-3"&gt;&lt;/a&gt;&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;show&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;img alt="/images/20170619-bc-ml-mnist-1/output_14_0.png" src="https://d-k-e.github.io/psl-dl-human-demo/images/20170619-bc-ml-mnist-1/output_14_0.png"&gt;
+&lt;p&gt;Pretty cool right !&lt;/p&gt;
+&lt;p&gt;Well, however, it is impossible to verify all the images in our dataset. This is why we have labels.
+Labels give us stable results which enables us to verify the information predicted by the classifier.
+For example, a label would say, the point 30000 in the data set is a five, the point 30001 is not five.
+Remeber our labeling of what is five and what is not five, right above, with boolean values.
+Term boolean applies to "true, false" values, whereas binary is a more general term for marking two based numerical notations.
+A boolean is a binary value, but a binary value does not have to manifest boolean characteristics, it does not have to be conceived as the negation of the second term for example.&lt;/p&gt;
+&lt;p&gt;Now there is one final question that needs to be answered ?
+How good our classifier did ?
+That is, how many datapoints were identified correctly by our classifier ?
+This information is crucial for evaluating the success rate of our classifier ?&lt;/p&gt;
+&lt;p&gt;We will cover this in the next post along with subjects like, cross validation, precision, recall, f1 score.&lt;/p&gt;
+&lt;p&gt;Stay tuned for more introductory material in the field of Deep Learning and Machine Learning destined for people working in humanities and related fields.
+We'll do our best to be as comprehensible and as simple as possible, "but not simpler than that".&lt;/p&gt;
+&lt;p&gt;Please do share your thoughts, questions and suggestions under the comments below. We look forward to hear from you.&lt;/p&gt;
+&lt;p&gt;Take care.&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><guid>https://d-k-e.github.io/psl-dl-human-demo/fr/posts/binary-classification-and-dl-essentials-with-mnist-data/</guid><pubDate>Sat, 17 Jun 2017 00:50:53 GMT</pubDate></item></channel></rss>

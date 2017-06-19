@@ -1,0 +1,4 @@
+Sitemap: https://d-k-e.github.io/psl-dl-human-demo/sitemapindex.xml
+
+User-Agent: *
+Host: d-k-e.github.io
