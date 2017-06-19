@@ -20,8 +20,8 @@ You can think of binary classification as yes, n">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2017-06-17T02:50:53+02:00">
 <meta property="article:tag" content="deep-learning">
-<meta property="article:tag" content="dl-essentials">
 <meta property="article:tag" content="image-recognition">
+<meta property="article:tag" content="ml-essentials">
 <link rel="alternate" hreflang="fr" href="../../fr/posts/binary-classification-and-dl-essentials-with-mnist-data/">
 </head>
 <body>
@@ -96,17 +96,17 @@ So let's import our dataset.</p>
 <div class="section" id="import-mnist-dataset">
 <h2>Import MNIST Dataset</h2>
 <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="#rest_code_935bce490d4a43dc973d805436c19c22-1">1</a>
-<a href="#rest_code_935bce490d4a43dc973d805436c19c22-2">2</a>
-<a href="#rest_code_935bce490d4a43dc973d805436c19c22-3">3</a></pre></div></td>
-<td class="code"><pre class="code python"><a name="rest_code_935bce490d4a43dc973d805436c19c22-1"></a><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_mldata</span>
-<a name="rest_code_935bce490d4a43dc973d805436c19c22-2"></a>
-<a name="rest_code_935bce490d4a43dc973d805436c19c22-3"></a><span class="n">mnist</span> <span class="o">=</span> <span class="n">fetch_mldata</span><span class="p">(</span><span class="s2">"MNIST Original"</span><span class="p">)</span>
+<td class="linenos"><div class="linenodiv"><pre><a href="#rest_code_edb24e9757554b7b91c0d98681fde2a6-1">1</a>
+<a href="#rest_code_edb24e9757554b7b91c0d98681fde2a6-2">2</a>
+<a href="#rest_code_edb24e9757554b7b91c0d98681fde2a6-3">3</a></pre></div></td>
+<td class="code"><pre class="code python"><a name="rest_code_edb24e9757554b7b91c0d98681fde2a6-1"></a><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_mldata</span>
+<a name="rest_code_edb24e9757554b7b91c0d98681fde2a6-2"></a>
+<a name="rest_code_edb24e9757554b7b91c0d98681fde2a6-3"></a><span class="n">mnist</span> <span class="o">=</span> <span class="n">fetch_mldata</span><span class="p">(</span><span class="s2">"MNIST Original"</span><span class="p">)</span>
 </pre></td>
 </tr></table>
 <p>This might take while, depending on the internet connection, so feel free to grab a quick coffee.</p>
 <p>After the data is downloaded, let's see what's inside.</p>
-<pre class="code python"><a name="rest_code_fadb8a2df01146aebefe362470c75752-1"></a><span class="k">print</span><span class="p">(</span><span class="n">mnist</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_b7a2d3fafcc3430480b2a4620e83e769-1"></a><span class="k">print</span><span class="p">(</span><span class="n">mnist</span><span class="p">)</span>
 </pre>
 <pre class="literal-block">
 {'DESCR': 'mldata.org dataset: mnist-original',
@@ -143,9 +143,9 @@ In theory, it is a <a class="reference external" href="https://simple.wikipedia.
 <h2>Assigning Variables: Label, Data</h2>
 <p>Now let's assign our dataset to their variables for ease of use during the session.
 A quick note here, please do not forget that in python assignment operation <em>does not</em> create a new object in memory, instead the variable functions as a 'name', 'tag' of the object in memory, so if you want to use the <em>untouched</em> dataset later on for different purposes, feel free to work with a copy of it.</p>
-<pre class="code python"><a name="rest_code_9cc05b50f6d04ce58fdc06b32e5a4881-1"></a><span class="n">X</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">mnist</span><span class="p">[</span><span class="s2">"data"</span><span class="p">],</span> <span class="n">mnist</span><span class="p">[</span><span class="s2">"target"</span><span class="p">]</span>
-<a name="rest_code_9cc05b50f6d04ce58fdc06b32e5a4881-2"></a><span class="k">print</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<a name="rest_code_9cc05b50f6d04ce58fdc06b32e5a4881-3"></a><span class="k">print</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_8ea15e78e33040dda1d8d29e772fe174-1"></a><span class="n">X</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">mnist</span><span class="p">[</span><span class="s2">"data"</span><span class="p">],</span> <span class="n">mnist</span><span class="p">[</span><span class="s2">"target"</span><span class="p">]</span>
+<a name="rest_code_8ea15e78e33040dda1d8d29e772fe174-2"></a><span class="k">print</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<a name="rest_code_8ea15e78e33040dda1d8d29e772fe174-3"></a><span class="k">print</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre>
 <pre class="literal-block">
 (70000, 784)
@@ -168,16 +168,16 @@ Since y contains labels for the images, we can see that it includes a label for 
 <div class="section" id="visualisation-of-a-digit">
 <h2>Visualisation of a digit</h2>
 <p>Just for the sake of verifying that everything is okay, let's visualise a digit.</p>
-<pre class="code python"><a name="rest_code_af6e5694cbe94e688ab4cf37907c2274-1"></a><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
-<a name="rest_code_af6e5694cbe94e688ab4cf37907c2274-2"></a><span class="kn">import</span> <span class="nn">random</span>
-<a name="rest_code_af6e5694cbe94e688ab4cf37907c2274-3"></a><span class="kn">import</span> <span class="nn">matplotlib</span>
-<a name="rest_code_af6e5694cbe94e688ab4cf37907c2274-4"></a><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-<a name="rest_code_af6e5694cbe94e688ab4cf37907c2274-5"></a><span class="c1">#random_digit = X[random.randint(0,70000-1)]</span>
-<a name="rest_code_af6e5694cbe94e688ab4cf37907c2274-6"></a><span class="n">random_digit</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="mi">36000</span><span class="p">]</span>
-<a name="rest_code_af6e5694cbe94e688ab4cf37907c2274-7"></a><span class="n">random_digit_image</span> <span class="o">=</span> <span class="n">random_digit</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span><span class="mi">28</span><span class="p">)</span>
-<a name="rest_code_af6e5694cbe94e688ab4cf37907c2274-8"></a><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">random_digit_image</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">binary</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">"nearest"</span><span class="p">)</span>
-<a name="rest_code_af6e5694cbe94e688ab4cf37907c2274-9"></a><span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">"off"</span><span class="p">)</span>
-<a name="rest_code_af6e5694cbe94e688ab4cf37907c2274-10"></a><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<pre class="code python"><a name="rest_code_08a63cea5ab74a319dbd26fc46e6f082-1"></a><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<a name="rest_code_08a63cea5ab74a319dbd26fc46e6f082-2"></a><span class="kn">import</span> <span class="nn">random</span>
+<a name="rest_code_08a63cea5ab74a319dbd26fc46e6f082-3"></a><span class="kn">import</span> <span class="nn">matplotlib</span>
+<a name="rest_code_08a63cea5ab74a319dbd26fc46e6f082-4"></a><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<a name="rest_code_08a63cea5ab74a319dbd26fc46e6f082-5"></a><span class="c1">#random_digit = X[random.randint(0,70000-1)]</span>
+<a name="rest_code_08a63cea5ab74a319dbd26fc46e6f082-6"></a><span class="n">random_digit</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="mi">36000</span><span class="p">]</span>
+<a name="rest_code_08a63cea5ab74a319dbd26fc46e6f082-7"></a><span class="n">random_digit_image</span> <span class="o">=</span> <span class="n">random_digit</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span><span class="mi">28</span><span class="p">)</span>
+<a name="rest_code_08a63cea5ab74a319dbd26fc46e6f082-8"></a><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">random_digit_image</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">binary</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">"nearest"</span><span class="p">)</span>
+<a name="rest_code_08a63cea5ab74a319dbd26fc46e6f082-9"></a><span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">"off"</span><span class="p">)</span>
+<a name="rest_code_08a63cea5ab74a319dbd26fc46e6f082-10"></a><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre>
 <p>Basically we did the following:</p>
 <ol class="arabic simple">
@@ -200,11 +200,11 @@ If you decide to use it throughout your code, your classifier will not give the 
 From this point on, we shall see the machine learning in action.
 Beware though without the necessary preprocessing, you simply can not work with it, through machine learning tools.
 Thus the quality of your preprocessing is one of the key factors effecting the reliability of the outcome of your results.</p>
-<pre class="code text"><a name="rest_code_c70a0d7c9e8f4198b05ac9a7383162bc-1"></a>X_train, X_test, y_train, y_test = X[:60000], X[60000:], y[:60000], y[60000:]
-<a name="rest_code_c70a0d7c9e8f4198b05ac9a7383162bc-2"></a>import numpy as np
-<a name="rest_code_c70a0d7c9e8f4198b05ac9a7383162bc-3"></a>shuffle_index = np.random.permutation(60000)
-<a name="rest_code_c70a0d7c9e8f4198b05ac9a7383162bc-4"></a>print(type(shuffle_index))
-<a name="rest_code_c70a0d7c9e8f4198b05ac9a7383162bc-5"></a>X_train, y_train = X_train[shuffle_index], y_train[shuffle_index]
+<pre class="code text"><a name="rest_code_7574553426ec436790a29f265571d92d-1"></a>X_train, X_test, y_train, y_test = X[:60000], X[60000:], y[:60000], y[60000:]
+<a name="rest_code_7574553426ec436790a29f265571d92d-2"></a>import numpy as np
+<a name="rest_code_7574553426ec436790a29f265571d92d-3"></a>shuffle_index = np.random.permutation(60000)
+<a name="rest_code_7574553426ec436790a29f265571d92d-4"></a>print(type(shuffle_index))
+<a name="rest_code_7574553426ec436790a29f265571d92d-5"></a>X_train, y_train = X_train[shuffle_index], y_train[shuffle_index]
 </pre>
 <pre class="literal-block">
 &lt;class 'numpy.ndarray'&gt;
@@ -238,9 +238,9 @@ Easy, because though we want training data to be as random as possible, we still
 We are trying to distinguish apples from "not apples".
 Since MNIST is all numerical data, we could pick a random number for demonstrating how binary classification works.
 Let's take the number "5", and try to distinguish the fives from not fives.</p>
-<pre class="code python"><a name="rest_code_01a4d44263ea49c28e2839480b7a708b-1"></a><span class="n">y_train_5</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_train</span> <span class="o">==</span> <span class="mi">5</span><span class="p">)</span> <span class="c1"># True for all the 5's, and false for the other digits</span>
-<a name="rest_code_01a4d44263ea49c28e2839480b7a708b-2"></a><span class="n">y_test_5</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_test</span> <span class="o">==</span> <span class="mi">5</span><span class="p">)</span>
-<a name="rest_code_01a4d44263ea49c28e2839480b7a708b-3"></a><span class="k">print</span> <span class="p">(</span><span class="n">y_train_5</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_d2b673cfa54f4f7cbeaf22c644725dd8-1"></a><span class="n">y_train_5</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_train</span> <span class="o">==</span> <span class="mi">5</span><span class="p">)</span> <span class="c1"># True for all the 5's, and false for the other digits</span>
+<a name="rest_code_d2b673cfa54f4f7cbeaf22c644725dd8-2"></a><span class="n">y_test_5</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_test</span> <span class="o">==</span> <span class="mi">5</span><span class="p">)</span>
+<a name="rest_code_d2b673cfa54f4f7cbeaf22c644725dd8-3"></a><span class="k">print</span> <span class="p">(</span><span class="n">y_train_5</span><span class="p">)</span>
 </pre>
 <pre class="literal-block">
 [False False False ..., False False False]
@@ -249,24 +249,24 @@ Let's take the number "5", and try to distinguish the fives from not fives.</p>
 We had labeled all the labels that are five as "True" and all the rest "False".
 The code uses a generator expressions to be memory efficient and is rather terse.
 If we were to write openly with more familiar data types, what is happening, it would be something like this:</p>
-<pre class="code python"><a name="rest_code_644bf560d147452b99c32637bb75bf12-1"></a><span class="n">y_train_five</span> <span class="o">=</span> <span class="p">[]</span>
-<a name="rest_code_644bf560d147452b99c32637bb75bf12-2"></a>
-<a name="rest_code_644bf560d147452b99c32637bb75bf12-3"></a><span class="k">for</span> <span class="n">y_tr</span> <span class="ow">in</span> <span class="n">y_train</span><span class="p">:</span>
-<a name="rest_code_644bf560d147452b99c32637bb75bf12-4"></a>    <span class="k">if</span> <span class="n">y_tr</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
-<a name="rest_code_644bf560d147452b99c32637bb75bf12-5"></a>        <span class="n">y_train_five</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
-<a name="rest_code_644bf560d147452b99c32637bb75bf12-6"></a>    <span class="k">else</span><span class="p">:</span>
-<a name="rest_code_644bf560d147452b99c32637bb75bf12-7"></a>        <span class="n">y_train_five</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-<a name="rest_code_644bf560d147452b99c32637bb75bf12-8"></a>
-<a name="rest_code_644bf560d147452b99c32637bb75bf12-9"></a><span class="k">print</span><span class="p">(</span><span class="n">y_train_five</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_f79e895b70c847b3b6284b31cc5491f8-1"></a><span class="n">y_train_five</span> <span class="o">=</span> <span class="p">[]</span>
+<a name="rest_code_f79e895b70c847b3b6284b31cc5491f8-2"></a>
+<a name="rest_code_f79e895b70c847b3b6284b31cc5491f8-3"></a><span class="k">for</span> <span class="n">y_tr</span> <span class="ow">in</span> <span class="n">y_train</span><span class="p">:</span>
+<a name="rest_code_f79e895b70c847b3b6284b31cc5491f8-4"></a>    <span class="k">if</span> <span class="n">y_tr</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+<a name="rest_code_f79e895b70c847b3b6284b31cc5491f8-5"></a>        <span class="n">y_train_five</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+<a name="rest_code_f79e895b70c847b3b6284b31cc5491f8-6"></a>    <span class="k">else</span><span class="p">:</span>
+<a name="rest_code_f79e895b70c847b3b6284b31cc5491f8-7"></a>        <span class="n">y_train_five</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+<a name="rest_code_f79e895b70c847b3b6284b31cc5491f8-8"></a>
+<a name="rest_code_f79e895b70c847b3b6284b31cc5491f8-9"></a><span class="k">print</span><span class="p">(</span><span class="n">y_train_five</span><span class="p">)</span>
 </pre>
 <p>This was only the training set.
 The previous code also shows that we did the same operation on the test set.
 So now, we have isolated the fives in our training and test set.
 It is time for us to let the algorithms loose.</p>
-<pre class="code python"><a name="rest_code_690ffb57aacd4acfa4d1f5e23b809b44-1"></a><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">SGDClassifier</span>
-<a name="rest_code_690ffb57aacd4acfa4d1f5e23b809b44-2"></a><span class="n">sgd_clf</span> <span class="o">=</span> <span class="n">SGDClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-<a name="rest_code_690ffb57aacd4acfa4d1f5e23b809b44-3"></a><span class="n">sgd_clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train_5</span><span class="p">)</span>
-<a name="rest_code_690ffb57aacd4acfa4d1f5e23b809b44-4"></a><span class="n">sgd_clf</span><span class="o">.</span><span class="n">predict</span><span class="p">([</span><span class="n">random_digit</span><span class="p">,</span><span class="n">X</span><span class="p">[</span><span class="mi">65421</span><span class="p">]])</span>
+<pre class="code python"><a name="rest_code_0fb8d55a332349aab49ee943ff1e5243-1"></a><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">SGDClassifier</span>
+<a name="rest_code_0fb8d55a332349aab49ee943ff1e5243-2"></a><span class="n">sgd_clf</span> <span class="o">=</span> <span class="n">SGDClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<a name="rest_code_0fb8d55a332349aab49ee943ff1e5243-3"></a><span class="n">sgd_clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train_5</span><span class="p">)</span>
+<a name="rest_code_0fb8d55a332349aab49ee943ff1e5243-4"></a><span class="n">sgd_clf</span><span class="o">.</span><span class="n">predict</span><span class="p">([</span><span class="n">random_digit</span><span class="p">,</span><span class="n">X</span><span class="p">[</span><span class="mi">65421</span><span class="p">]])</span>
 </pre>
 <pre class="literal-block">
 array([ True,  True], dtype=bool)
@@ -276,13 +276,13 @@ How does the algorithm of SGD works ? That's the subject of another post.
 What is essential here is that we had fit our training dataset, meaning that we had trained our classfier with it.
 Then we had predicted the result for two data points. According to the prediction of our trained classifiers, these points point to an image of 5.
 Let's see if that's true:</p>
-<pre class="code python"><a name="rest_code_77031eb0435d4db08f02b8634e66eac2-1"></a><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">random_digit_image</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">binary</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">"nearest"</span><span class="p">)</span>
-<a name="rest_code_77031eb0435d4db08f02b8634e66eac2-2"></a><span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">"off"</span><span class="p">)</span>
-<a name="rest_code_77031eb0435d4db08f02b8634e66eac2-3"></a><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<pre class="code python"><a name="rest_code_0471bbe6b97449749bca67670b9a5156-1"></a><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">random_digit_image</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">binary</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">"nearest"</span><span class="p">)</span>
+<a name="rest_code_0471bbe6b97449749bca67670b9a5156-2"></a><span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">"off"</span><span class="p">)</span>
+<a name="rest_code_0471bbe6b97449749bca67670b9a5156-3"></a><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre>
-<img alt="/images/20170619-bc-ml-mnist-1/output_13_0.png" src="../../images/20170619-bc-ml-mnist-1/output_13_0.png"><pre class="code python"><a name="rest_code_1990eb6e0b03471f9bda13a578fe0a3d-1"></a><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">65421</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">binary</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">"nearest"</span><span class="p">)</span>
-<a name="rest_code_1990eb6e0b03471f9bda13a578fe0a3d-2"></a><span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">"off"</span><span class="p">)</span>
-<a name="rest_code_1990eb6e0b03471f9bda13a578fe0a3d-3"></a><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<img alt="/images/20170619-bc-ml-mnist-1/output_13_0.png" src="../../images/20170619-bc-ml-mnist-1/output_13_0.png"><pre class="code python"><a name="rest_code_7684f021b68644329773e3e3241f8d18-1"></a><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">65421</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">binary</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">"nearest"</span><span class="p">)</span>
+<a name="rest_code_7684f021b68644329773e3e3241f8d18-2"></a><span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">"off"</span><span class="p">)</span>
+<a name="rest_code_7684f021b68644329773e3e3241f8d18-3"></a><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre>
 <img alt="/images/20170619-bc-ml-mnist-1/output_14_0.png" src="../../images/20170619-bc-ml-mnist-1/output_14_0.png"><p>Pretty cool right !</p>
 <p>Well, however, it is impossible to verify all the images in our dataset. This is why we have labels.
@@ -305,8 +305,8 @@ We'll do our best to be as comprehensible and as simple as possible, "but not si
     </div>
     <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
 <li><a class="tag p-category" href="../../categories/deep-learning/" rel="tag">deep-learning</a></li>
-            <li><a class="tag p-category" href="../../categories/dl-essentials/" rel="tag">dl-essentials</a></li>
             <li><a class="tag p-category" href="../../categories/image-recognition/" rel="tag">image-recognition</a></li>
+            <li><a class="tag p-category" href="../../categories/ml-essentials/" rel="tag">ml-essentials</a></li>
         </ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
                         <div id="disqus_thread"></div>
         <script>

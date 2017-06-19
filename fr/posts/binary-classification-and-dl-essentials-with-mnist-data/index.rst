@@ -1,7 +1,7 @@
 .. title: Binary Classification and ML Essentials with MNIST Data - 1
 .. slug: binary-classification-and-dl-essentials-with-mnist-data
 .. date: 2017-06-17 02:50:53 UTC+02:00
-.. tags: deep-learning, image-recognition, dl-essentials
+.. tags: deep-learning, image-recognition, ml-essentials
 .. category: deep-learning
 .. link: 
 .. description: 

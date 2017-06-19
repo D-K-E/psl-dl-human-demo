@@ -7,11 +7,11 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <sitemap>
   <loc>https://d-k-e.github.io/psl-dl-human-demo/categories/cat_deep-learning.xml</loc>
-  <lastmod>2017-06-19T02:52:00Z</lastmod>
+  <lastmod>2017-06-19T03:19:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://d-k-e.github.io/psl-dl-human-demo/categories/deep-learning.xml</loc>
-  <lastmod>2017-06-19T02:52:00Z</lastmod>
+  <lastmod>2017-06-19T03:19:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://d-k-e.github.io/psl-dl-human-demo/categories/dl-essentials.xml</loc>
@@ -19,15 +19,19 @@
  </sitemap>
  <sitemap>
   <loc>https://d-k-e.github.io/psl-dl-human-demo/categories/image-recognition.xml</loc>
-  <lastmod>2017-06-19T02:52:00Z</lastmod>
+  <lastmod>2017-06-19T03:19:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://d-k-e.github.io/psl-dl-human-demo/categories/ml-essentials.xml</loc>
+  <lastmod>2017-06-19T03:19:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://d-k-e.github.io/psl-dl-human-demo/fr/categories/cat_deep-learning.xml</loc>
-  <lastmod>2017-06-19T02:52:00Z</lastmod>
+  <lastmod>2017-06-19T03:19:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://d-k-e.github.io/psl-dl-human-demo/fr/categories/deep-learning.xml</loc>
-  <lastmod>2017-06-19T02:52:00Z</lastmod>
+  <lastmod>2017-06-19T03:19:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://d-k-e.github.io/psl-dl-human-demo/fr/categories/dl-essentials.xml</loc>
@@ -35,18 +39,22 @@
  </sitemap>
  <sitemap>
   <loc>https://d-k-e.github.io/psl-dl-human-demo/fr/categories/image-recognition.xml</loc>
-  <lastmod>2017-06-19T02:52:00Z</lastmod>
+  <lastmod>2017-06-19T03:19:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://d-k-e.github.io/psl-dl-human-demo/fr/categories/ml-essentials.xml</loc>
+  <lastmod>2017-06-19T03:19:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://d-k-e.github.io/psl-dl-human-demo/fr/rss.xml</loc>
-  <lastmod>2017-06-19T02:52:00Z</lastmod>
+  <lastmod>2017-06-19T03:19:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://d-k-e.github.io/psl-dl-human-demo/rss.xml</loc>
-  <lastmod>2017-06-19T02:52:00Z</lastmod>
+  <lastmod>2017-06-19T03:19:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://d-k-e.github.io/psl-dl-human-demo/sitemap.xml</loc>
-  <lastmod>2017-06-19T03:10:00Z</lastmod>
+  <lastmod>2017-06-19T03:19:00Z</lastmod>
  </sitemap>
 </sitemapindex>
