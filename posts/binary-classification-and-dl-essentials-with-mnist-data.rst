@@ -131,14 +131,11 @@ Just for the sake of verifying that everything is okay, let's visualise a digit.
 Basically we did the following:
 
 1. Gave an instruction to ipython for using matplotlib (the library used for visualisation) inline, that is between the lines as in not in a separate window.
-
 2. We imported the necessary libraries for visualisation.
 The random library is there for accessing random digits, it doesn't have anything to do with visualisation.
 However, it is good practice to do verification from random parts of the data.
 If you decide to use it throughout your code, your classifier will not give the same values as ours, but it's okay.
-
 3. We reshape the image to its original value, that is to a matrix of 28x28. 
-
 4. Then we plot the image.
 
 What does it give ? It should give something like this:
@@ -154,7 +151,7 @@ From this point on, we shall see the machine learning in action.
 Beware though without the necessary preprocessing, you simply can not work with it, through machine learning tools.
 Thus the quality of your preprocessing is one of the key factors effecting the reliability of the outcome of your results.
 
-.. code-block::
+.. code-block:: python
 
    X_train, X_test, y_train, y_test = X[:60000], X[60000:], y[:60000], y[60000:]
    import numpy as np 
@@ -270,7 +267,7 @@ Let's see if that's true:
 
 Pretty cool right !
 
-Well, however, it is impossible to verify all the images in our dataset. This is why we have labels.
+Well, however, it is impossible to verify all the images in our dataset by visualising them. This is why we have labels.
 Labels give us stable results which enables us to verify the information predicted by the classifier.
 For example, a label would say, the point 30000 in the data set is a five, the point 30001 is not five.
 Remeber our labeling of what is five and what is not five, right above, with boolean values.
