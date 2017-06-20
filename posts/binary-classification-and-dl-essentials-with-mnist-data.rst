@@ -131,12 +131,17 @@ Just for the sake of verifying that everything is okay, let's visualise a digit.
 Basically we did the following:
 
 1. Gave an instruction to ipython for using matplotlib (the library used for visualisation) inline, that is between the lines as in not in a separate window.
+
 2. We imported the necessary libraries for visualisation.
+
 The random library is there for accessing random digits, it doesn't have anything to do with visualisation.
 However, it is good practice to do verification from random parts of the data.
 If you decide to use it throughout your code, your classifier will not give the same values as ours, but it's okay.
+
 3. We reshape the image to its original value, that is to a matrix of 28x28. 
+
 4. Then we plot the image.
+
 
 What does it give ? It should give something like this:
 
